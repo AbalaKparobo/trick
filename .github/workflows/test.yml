@@ -134,7 +134,7 @@ jobs:
       - name: Test
         run: make test
 
-  macOS-xcode-11.4:
+  macOS-xcode-11-4:
     runs-on: macos-latest
     steps:
     - name: Checkout repository
