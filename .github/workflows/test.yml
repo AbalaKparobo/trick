@@ -142,10 +142,11 @@ jobs:
    
     - name: test
       run: |
+        ls /Applications
         xcode-select --print-path
-        xcode-select -s /Applications/Xcode_11.4_beta.app/Contents/Developer
+        sudo xcode-select -s /Applications/Xcode_11.4_beta.app/Contents/Developer
         xcode-select --print-path
-        xcode-select -s /Applications/Xcode_11.4_beta.app/Contents/Developer
+        sudo xcode-select -s /Applications/Xcode_11.4_beta.app/Contents/Developer
         xcode-select --print-path
 
   
