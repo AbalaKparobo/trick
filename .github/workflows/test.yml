@@ -134,6 +134,21 @@ jobs:
       - name: Test
         run: make test
 
+  xcode:
+    runs-on: macos-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@master
+   
+    - name: test
+      run: |
+        xcode-select --print-path
+        xcode-select -s /Applications/Xcode_11.4_beta.app/Contents/Developer
+        xcode-select --print-path
+        xcode-select -s /Applications/Xcode_11.4_beta.app/Contents/Developer
+        xcode-select --print-path
+
+  
   macOS:
     runs-on: macos-latest
     steps:
