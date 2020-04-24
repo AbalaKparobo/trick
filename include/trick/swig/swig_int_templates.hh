@@ -62,6 +62,8 @@ template<typename T > static int typemap_in_scalar( T & output , PyObject *input
         output = (T)PyFloat_AsDouble(input) ;
     } else if ( PyInt_Check(input) ) {
         output = (T)PyInt_AsLong(input) ;
+    } else if (PyLong_AsUnsignedLongLong(input) && (!PyErr_Occurred())) {
+        output = (T)PyLong_AsUnsignedLongLong(input) ;
 #if PY_VERSION_HEX >= 0x03000000
     } else if ( PyUnicode_Check(input) ) {
         if ( PyUnicode_GET_SIZE(input) == 1 ) {
