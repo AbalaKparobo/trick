@@ -44,6 +44,7 @@ template<typename T > static int typemap_in_scalar( T & output , PyObject *input
     // SCALAR IN
     std::string temp_name ;
     std::string left_units ;
+
     void * my_argp ;
     int ret = 0 ;
 
@@ -62,8 +63,6 @@ template<typename T > static int typemap_in_scalar( T & output , PyObject *input
         output = (T)PyFloat_AsDouble(input) ;
     } else if ( PyInt_Check(input) ) {
         output = (T)PyInt_AsLong(input) ;
-    } else if (PyLong_AsUnsignedLongLong(input) && (!PyErr_Occurred())) {
-        output = (T)PyLong_AsUnsignedLongLong(input) ;
 #if PY_VERSION_HEX >= 0x03000000
     } else if ( PyUnicode_Check(input) ) {
         if ( PyUnicode_GET_SIZE(input) == 1 ) {
@@ -79,6 +78,10 @@ template<typename T > static int typemap_in_scalar( T & output , PyObject *input
             output = (T)temp_str[0] ;
         }
 #endif
+    // PyLong_AsUnsignedLongLong returns ((unsigned long long)-1) on error.
+    // This is a valid ull (2^64-1) so we must check PyErr_Occurred instead.
+    } else if ((PyLong_AsUnsignedLongLong(input) || true) && (!PyErr_Occurred())) {
+        output = (T)PyLong_AsUnsignedLongLong(input) ;
     } else {
         ret = -1 ;
     }
