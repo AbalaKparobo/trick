@@ -13,8 +13,21 @@ CLANG_MINOR_GTEQ5 := $(shell [ $(CLANG_MAJOR) -gt 3 -o \( $(CLANG_MAJOR) -eq 3 -
 CLANG_MAJOR_GTEQ10 := $(shell [ $(CLANG_MAJOR) -ge 10 ] && echo 1)
 ifeq ($(CLANG_MAJOR_GTEQ10),1)
 CXXFLAGS += -std=c++14
+CLANGLIBS = -lclang-cpp
 else
 CXXFLAGS += -std=c++11
+CLANGLIBS = \
+    -lclangFrontend \
+    -lclangDriver \
+    -lclangSerialization \
+    -lclangParse \
+    -lclangSema \
+    -lclangAnalysis \
+    -lclangEdit \
+    -lclangAST \
+    -lclangLex \
+    -lclangBasic \
+    
 endif
 
 LLVMLDFLAGS := $(shell $(LLVM_HOME)/bin/llvm-config --ldflags) $(UDUNITS_LDFLAGS)
@@ -29,17 +42,7 @@ OBJECTS = $(addprefix $(OBJ_DIR)/, $(subst .cpp,.o,$(SOURCES)))
 UDUNITS_OBJS = \
     $(OBJ_DIR)/map_trick_units_to_udunits.o
 
-CLANGLIBS = \
-    -lclangFrontend \
-    -lclangDriver \
-    -lclangSerialization \
-    -lclangParse \
-    -lclangSema \
-    -lclangAnalysis \
-    -lclangEdit \
-    -lclangAST \
-    -lclangLex \
-    -lclangBasic \
+
 
 CXXFLAGS += -DLIBCLANG_MAJOR=$(CLANG_MAJOR) -DLIBCLANG_MINOR=$(CLANG_MINOR)
 ifneq ($(CLANG_PATCHLEVEL),)
